@@ -5,7 +5,7 @@
 
 export interface Vehichle{
   id: string
-  images: Array<string>
+  images: Array<{url: string, car_angle: string}>
   make: string
   model: {
     model: string
@@ -14,8 +14,8 @@ export interface Vehichle{
   }
   mileage: number
   first_registration: {
-    month: number
-    year: number
+    month: number|null
+    year: number|null
   }
   fuel: string
   power: string

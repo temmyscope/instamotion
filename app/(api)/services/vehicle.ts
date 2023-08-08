@@ -1,11 +1,15 @@
-"use client";
 import { requests } from "@/app/(api)/api";
 import { GetVehicles, Vehichle } from "@/app/lib/types";
 
 
 const vehicleFeatureAdapter = (data: any): Vehichle => {
-
-  let [month, year] = (data.vehicle_history.reg_date as string).split('.', 2);
+  let month = null, year = null;
+  
+  if (data.vehicle_history.reg_date) {
+    [month, year] = (data.vehicle_history.reg_date as string).split('.', 2).map(
+      value => Number(value)
+    );
+  }
 
   return ({
     id: data.id,
@@ -32,16 +36,13 @@ const vehicleFeatureAdapter = (data: any): Vehichle => {
       unit: data.drivetrain.consumption.unit,
       combined:  data.drivetrain.consumption.consumption_combined,
     },
-    first_registration: {
-      month: Number(month),
-      year: Number(year),
-    },
+    first_registration: { month, year },
   });
 }
 
 const ErrorResponseInterceptor = (res: Response) => {
   if (!res.ok) {
-    throw new Error("Error");
+    throw new Error("Error: I can do anything to global state and determine error view here");
   }
   return res;
 }
@@ -55,7 +56,6 @@ export const getVehichles: GetVehicles = async() => {
   return api.get('/').then(
     data => {
       if (data['records'] && data['records']?.length > 0) {
-        console.log(data['records'])
         return (data['records'] as Array<any>).map(vehicle => vehicleFeatureAdapter(vehicle));
       }
       return [];
