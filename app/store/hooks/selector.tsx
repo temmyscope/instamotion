@@ -10,5 +10,7 @@ export const useVehicleSelector = () => {
 
   const selectAll = () => vehichles.vehicles;
 
-  return { selectById, selectAll }
+  const selectFiltered = () => vehichles.filtered;
+
+  return { selectById, selectAll, selectFiltered }
 }

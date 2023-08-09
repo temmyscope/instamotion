@@ -16,7 +16,6 @@ export default function RootLayout({
         <VehicleContextProvider>
           {children}
         </VehicleContextProvider>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
       </body>
     </html>
   )

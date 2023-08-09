@@ -8,7 +8,7 @@ export type Image = {
   car_angle: string
 }
 
-export interface Vehichle{
+export interface Vehicle{
   id: string
   images: Array<Image>
   make: string
@@ -23,7 +23,7 @@ export interface Vehichle{
     year: number|null
   }
   fuel: string
-  power: string
+  power: number
   price: { 
     price: number
     currency: string
@@ -39,11 +39,11 @@ export interface Vehichle{
   color: string
 }
 
-export type GetVehicles = () => Promise<Array<Vehichle>>
+export type GetVehicles = () => Promise<Array<Vehicle>>
 
 /**
  * 
  * place all context state types below this line
  */
 
-export interface VehicleContextState { vehicles: Vehichle[] }
+export interface VehicleContextState { vehicles: Vehicle[], filtered: Vehicle[], userIsSearching: boolean }

@@ -1,17 +1,21 @@
 "use client";
-import React, { Suspense } from 'react';
+import React, { Suspense, useContext, useEffect } from 'react';
 
 import SideBar from '@/app/components/sidebar';
 import VehicleTile from '@/app/components/commons/tile';
 import VehicleTileSkeleton from '@/app/components/commons/tile/skeleton';
 
-import { useVehicleSelector } from './store/hooks/selector';
+import { VehicleContext } from './store/provider';
 
 
 export default function Home() {
-  const { selectAll } = useVehicleSelector();
+  const [vehichleState, _] = useContext(VehicleContext);
 
-  const vehicles = selectAll();
+  console.log(vehichleState.userIsSearching)
+  useEffect(() => {
+    console.log(vehichleState)
+
+  }, [vehichleState])
 
   return (
     <React.Fragment>
@@ -23,8 +27,13 @@ export default function Home() {
           <div className="grid grid-cols-3 gap-4 mb-4">
 
             <Suspense fallback={<>{Array().fill(0, 0, 9).map((_, index) => <VehicleTileSkeleton key={index} />)} </>}>
-              {vehicles.map(vehicle => (
-                <VehicleTile vehicle={vehicle} />
+              {vehichleState.userIsSearching === true?
+              vehichleState.filtered.map((vehicle, idx) => (
+                <VehicleTile vehicle={vehicle} key={idx} />
+              ))
+              :
+              vehichleState.vehicles.map((vehicle, idx) => (
+                <VehicleTile vehicle={vehicle} key={idx} />
               ))}
             </Suspense>
 

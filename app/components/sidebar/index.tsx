@@ -1,7 +1,16 @@
 import React from "react";
-import { ColorFilter, NumberRangeFilter } from "../commons/filter";
+import { ColorFilter, NumberRangeFilter } from "@/app/components/commons/filter";
+
+import { useVehicleFilter } from '@/app/store/hooks/filter';
 
 export default function SideBar() {
+
+  const { 
+    filterByPrice, 
+    filterByPower, 
+    filterByMileage, 
+    filterByExtColor 
+  } = useVehicleFilter();
 
   return (
     <React.Fragment>
@@ -16,13 +25,13 @@ export default function SideBar() {
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <form className="mt-4 border-t border-gray-200">
 
-            <NumberRangeFilter label="Price" />
+            <NumberRangeFilter label="Price" handler={filterByPrice} />
 
-            <NumberRangeFilter label="Power" />
+            <NumberRangeFilter label="Power" handler={filterByPower} />
 
-            <NumberRangeFilter label="Mileage" />
+            <NumberRangeFilter label="Mileage" handler={filterByMileage} />
             
-            <ColorFilter colors={['Blue', 'Gray']} />
+            <ColorFilter colors={['Blue', 'Grey']} handler={filterByExtColor} />
 
           </form>
         </div>
