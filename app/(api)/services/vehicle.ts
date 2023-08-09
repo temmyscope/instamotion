@@ -4,7 +4,7 @@ import { GetVehicles, Vehichle } from "@/app/lib/types";
 
 const vehicleFeatureAdapter = (data: any): Vehichle => {
   let month = null, year = null;
-  
+
   if (data.vehicle_history.reg_date) {
     [month, year] = (data.vehicle_history.reg_date as string).split('.', 2).map(
       value => Number(value)
@@ -50,13 +50,20 @@ const ErrorResponseInterceptor = (res: Response) => {
 export const getVehichles: GetVehicles = async() => {
 
   const api = requests(
-    [], [ErrorResponseInterceptor], 'https://run.mocky.io/v3/e7d5a5aa-8bdf-4a36-b6ab-134c08df916b'
+    [], 
+    [ErrorResponseInterceptor], 'https://run.mocky.io/v3/e7d5a5aa-8bdf-4a36-b6ab-134c08df916b'
   );
 
   return api.get('/').then(
     data => {
       if (data['records'] && data['records']?.length > 0) {
-        return (data['records'] as Array<any>).map(vehicle => vehicleFeatureAdapter(vehicle));
+        let vehicleData: Array<Vehichle> = [];
+        for (let index = 0; index < 30; index++) {
+          vehicleData = [
+            ...vehicleData, ...(data['records'] as Array<any>).map(vehicle => vehicleFeatureAdapter(vehicle))
+          ];
+        }
+        return vehicleData;
       }
       return [];
     }
