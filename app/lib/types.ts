@@ -3,9 +3,14 @@
  * place all data types here
  */
 
+export type Image = {
+  url: string
+  car_angle: string
+}
+
 export interface Vehichle{
   id: string
-  images: Array<{url: string, car_angle: string}>
+  images: Array<Image>
   make: string
   model: {
     model: string
