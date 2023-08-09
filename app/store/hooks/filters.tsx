@@ -5,16 +5,16 @@ export const useVehicleFilters = () => {
 
   const [_, dispatch] = useContext(VehicleContext);
 
-  const filterByMake = () => dispatch({ type: 'MAKE' });
-  const filterByModel = () => dispatch({ type: 'MODEL' });
-  const filterByMileage = () => dispatch({ type: 'MILEAGE' });
-  const filterByPower = () => dispatch({ type: 'POWER' });
-  const filterByFirstReg = () => dispatch({ type: 'FIRST_REG' });
-  const filterByFuel = () => dispatch({ type: 'FUEL' });
-  const filterByPrice = () => dispatch({ type: 'PRICE' });
-  const filterByGearBox = () => dispatch({ type: 'GEARBOX' });
-  const filterByExtColor = () => dispatch({ type: 'EXT_COLOR' });
-  const filterByCategory = () => dispatch({ type: 'CATEGORY' });
+  const filterByMake = (maker: string) => dispatch({ type: 'MAKE', payload: { maker } });
+  const filterByModel = (model: any) => dispatch({ type: 'MODEL', payload: { model }  });
+  const filterByMileage = (mileage: number) => dispatch({ type: 'MILEAGE', payload: { mileage }  });
+  const filterByPower = (power: number) => dispatch({ type: 'POWER', payload: { power }  });
+  const filterByFirstReg = (registration: any) => dispatch({ type: 'FIRST_REG', payload: { registration }  });
+  const filterByFuel = (fuelType: string) => dispatch({ type: 'FUEL', payload: { fuelType }  });
+  const filterByPrice = (price: number) => dispatch({ type: 'PRICE', payload: { price } });
+  const filterByGearBox = (gearBox: string) => dispatch({ type: 'GEARBOX', payload: { gearBox }  });
+  const filterByExtColor = (color: string) => dispatch({ type: 'EXT_COLOR', payload: { color }  });
+  const filterByCategory = (category: string) => dispatch({ type: 'CATEGORY', payload: { category }  });
 
 
   return {
