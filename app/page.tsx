@@ -1,20 +1,17 @@
+"use client";
 import React, { Suspense } from 'react';
-import type { Metadata } from 'next'
 
 import SideBar from '@/app/components/sidebar';
 import VehicleTile from '@/app/components/commons/tile';
 import VehicleTileSkeleton from '@/app/components/commons/tile/skeleton';
 
-import { getVehichles } from '@/app/(api)/services/vehicle';
+import { useVehicleSelector } from './store/hooks/selector';
 
 
-export const metadata: Metadata = {
-  title: 'Vehicle Listing',
-  description: 'Vehicle SEO text goes here',
-}
+export default function Home() {
+  const { selectAll } = useVehicleSelector();
 
-export default async function Home() {
-  const vehicles = await getVehichles();
+  const vehicles = selectAll();
 
   return (
     <React.Fragment>
@@ -25,7 +22,7 @@ export default async function Home() {
         <div className="p-4 border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700">     
           <div className="grid grid-cols-3 gap-4 mb-4">
 
-            <Suspense fallback={<>{Array().fill(0, 0, 9).map(_ => <VehicleTileSkeleton />)} </>}>
+            <Suspense fallback={<>{Array().fill(0, 0, 9).map((_, index) => <VehicleTileSkeleton key={index} />)} </>}>
               {vehicles.map(vehicle => (
                 <VehicleTile vehicle={vehicle} />
               ))}
@@ -34,8 +31,6 @@ export default async function Home() {
           </div>
         </div>
       </div>
-
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
     </React.Fragment>
   )
 }

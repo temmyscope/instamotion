@@ -4,25 +4,27 @@ const initialState: VehicleContextState = { vehicles: [] }
 
 const vehicleReducer = (prevState = initialState, action: any): VehicleContextState  => {
   switch(action.type) {
-    case 'MAKE':
+    case 'INITIALISE':
+      return { ...prevState, vehicles: action.data };
+    case 'FILTER_BY_MAKE':
       return { ...prevState,  };
-    case 'MODEL':
+    case 'FILTER_BY_MODEL':
       return { ...prevState,  };
-    case 'MILEAGE':
+    case 'FILTER_BY_MILEAGE':
       return { ...prevState,  };
-    case 'POWER':
+    case 'FILTER_BY_POWER':
       return { ...prevState,  };
-    case 'FIRST_REG':
+    case 'FILTER_BY_FIRST_REG':
       return { ...prevState,  };
-    case 'FUEL':
+    case 'FILTER_BY_FUEL':
       return { ...prevState,  };
-    case 'PRICE':
+    case 'FILTER_BY_PRICE':
       return { ...prevState,  };
-    case 'GEARBOX':
+    case 'FILTER_BY_GEARBOX':
       return { ...prevState,  };
-    case 'EXT_COLOR':
+    case 'FILTER_BY_EXT_COLOR':
       return { ...prevState,  };
-    case 'CATEGORY':
+    case 'FILTER_BY_CATEGORY':
       return { ...prevState,  };
     default:
       return prevState

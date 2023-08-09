@@ -6,7 +6,7 @@ export default function ThumbnailImage({ name, vehicleImage }: { name: string, v
   return (
     <div>
       <Image 
-        src={vehicleImage.url ?? ""}  width={'200'} height={'75'} className="h-auto max-w-full rounded-lg"
+        src={vehicleImage.url ?? ""} width={'200'} height={'75'} className="h-auto max-w-full rounded-lg"
         alt={`Picture of ${name} `}
       />
     </div>
@@ -18,7 +18,8 @@ export function ImageInFocus({ name, vehicleImage }: { name: string, vehicleImag
   return (
     <div>
       <Image 
-        src={vehicleImage.url ?? ""} className="h-auto max-w-full rounded-lg" alt={`Picture of ${name} `}
+        src={vehicleImage.url ?? ""} alt={`Picture of ${name} `} height={300} width={500}
+        className="h-auto max-w-full rounded-lg" objectFit='contain'
       />
     </div>
   );

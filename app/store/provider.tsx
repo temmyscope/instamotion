@@ -1,6 +1,7 @@
 import { VehicleContextState } from '@/app/lib/types';
 import React, { useEffect, useMemo, useReducer } from 'react';
 import { vehicleReducer, initialState } from './reducers/vehicle';
+import { getVehichles } from '../(api)/services/vehicle';
 
 
 type VehicleContextProp = {
@@ -12,6 +13,16 @@ export const VehicleContext = React.createContext<[ VehicleContextState, React.D
 const VehicleContextProvider = ({ children }: VehicleContextProp) => {
   const [vehicleListingState, dispatch] = useReducer(vehicleReducer, initialState);
 
+  useEffect(() => {
+    (async() => {
+      const vehicles = await getVehichles();
+      if (vehicles) {
+        dispatch({type: 'INITIALISE', data: vehicles})
+      }
+    })();
+
+    return () => {}
+  }, []);  
 
   return(
     <VehicleContext.Provider value={[vehicleListingState, dispatch]}>
