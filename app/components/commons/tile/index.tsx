@@ -1,10 +1,12 @@
 import Image from 'next/image';
 import { Vehicle } from "@/app/lib/types";
 import Label from '@/app/components/commons/label';
+import LazyLoad from 'react-lazyload';
 
 export default function VehicleTile({ vehicle }: { vehicle: Vehicle }) {
   
   return (
+    <LazyLoad offset={100} >
     <a href={`/vehicle/${vehicle.id}`} className="flex flex-col my-1 items-center justify-evenly h-64 rounded bg-gray-50 dark:bg-gray-800">
       <Image 
         src={vehicle.images[0].url ?? ""} 
@@ -31,5 +33,6 @@ export default function VehicleTile({ vehicle }: { vehicle: Vehicle }) {
         />
       </div>
     </a>
+    </LazyLoad>
   );
 }

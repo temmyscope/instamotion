@@ -17,6 +17,8 @@ export interface Vehicle{
     detail: string
     year: number
   }
+  gearbox: string
+  category: string,
   mileage: number
   first_registration: {
     month: number|null
@@ -39,11 +41,25 @@ export interface Vehicle{
   color: string
 }
 
-export type GetVehicles = () => Promise<Array<Vehicle>>
+export type VehicleMetaDataType = {
+  categories: Set<string>
+  color: Set<string>
+  make: {[key: string]: Set<string>}
+  fuel: Set<string>
+  gearbox: Set<string>
+  first_reg: Set<number>
+}
+
+export type GetVehicles = () => Promise<{ vehicles: Array<Vehicle>, meta: VehicleMetaDataType}>
 
 /**
  * 
  * place all context state types below this line
  */
 
-export interface VehicleContextState { vehicles: Vehicle[], filtered: Vehicle[], userIsSearching: boolean }
+export interface VehicleContextState { 
+  vehicles: Vehicle[] 
+  meta: VehicleMetaDataType,
+  filtered: Vehicle[] 
+  userIsSearching: boolean 
+}

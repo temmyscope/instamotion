@@ -48,14 +48,17 @@ export const requests = (
     }
     req = await interceptRequest(req);
     
-    return await fetch(`${serviceEndpoint}${uri}`, {
+    return new Promise(resolve => {
+      //simulate delay
+      setTimeout(resolve, 2000);
+    }).then(() => fetch(`${serviceEndpoint}${uri}`, {
       method, headers: req.headers, body: JSON.stringify(req.body) 
     }).then(async (res) => {
       res = await interceptResponse(res);
       return res.json();
     }).then(json => {
       return json;
-    }).catch( err => console.log(err) );
+    }).catch( err => console.log(err) ));
   }
 
   return ({

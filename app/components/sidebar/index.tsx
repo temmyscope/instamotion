@@ -1,16 +1,30 @@
-import React from "react";
-import { ColorFilter, NumberRangeFilter } from "@/app/components/commons/filter";
+import React, { useContext, useState } from "react";
 
+import { ColorFilter, NumberRangeFilter, SelectFilter } from "@/app/components/commons/filter";
+
+import { VehicleContext } from "@/app/store/provider";
 import { useVehicleFilter } from '@/app/store/hooks/filter';
 
 export default function SideBar() {
+  const [vehichleState, _] = useContext(VehicleContext);
+
+  const [filters, setFilter] = useState({make: ''})
 
   const { 
     filterByPrice, 
     filterByPower, 
     filterByMileage, 
-    filterByExtColor 
+    filterByExtColor,
+    filterByMake, filterByModel, filterByFuel,
+    filterByCategory, filterByGearBox, filterByFirstReg
   } = useVehicleFilter();
+
+  const addBrandFilter = (brand: string) => {
+    setFilter(prevState => ({ ...prevState, make: brand }));
+    filterByMake(brand);
+  }
+
+
 
   return (
     <React.Fragment>
@@ -25,13 +39,45 @@ export default function SideBar() {
         <div className="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
           <form className="mt-4 border-t border-gray-200">
 
+            <SelectFilter 
+              label="Select category" handler={filterByCategory}
+              options={Array.from(vehichleState.meta?.categories ?? [])} 
+            />
+
+            <SelectFilter 
+              label="Select a brand" handler={addBrandFilter}
+              options={vehichleState.meta.make? Object.keys(vehichleState.meta.make) : []} 
+            />
+
+            {filters.make !== '' && (
+            <SelectFilter 
+              label="Select a model" handler={filterByModel}
+              options={Array.from(vehichleState.meta.make[filters.make])} 
+            />
+            )}
+
+            <SelectFilter 
+              label="Select fuel type" handler={filterByFuel}
+              options={Array.from(vehichleState.meta?.fuel ?? [])} 
+            />
+
+            <SelectFilter 
+              options={Array.from(vehichleState.meta?.first_reg ?? [])} 
+              label="Select year of registration" handler={filterByFirstReg}
+            />
+
+            <SelectFilter 
+              label="Select gear type" handler={filterByGearBox}
+              options={Array.from(vehichleState.meta?.gearbox ?? [])} 
+            />
+
             <NumberRangeFilter label="Price" handler={filterByPrice} />
 
             <NumberRangeFilter label="Power" handler={filterByPower} />
 
             <NumberRangeFilter label="Mileage" handler={filterByMileage} />
             
-            <ColorFilter colors={['Blue', 'Grey']} handler={filterByExtColor} />
+            <ColorFilter colors={Array.from(vehichleState.meta?.color ?? [])} handler={filterByExtColor} />
 
           </form>
         </div>
