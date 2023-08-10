@@ -1,50 +1,42 @@
-import { VehicleContextState } from "@/app/lib/types";
+import { VehicleContextState, VehicleMetaDataType } from "@/app/lib/types";
 
-const initialState: VehicleContextState = { vehicles: [], filtered: [], userIsSearching: false }
+const initialState: VehicleContextState = { 
+  vehicles: [], meta: {} as VehicleMetaDataType, filtered: [], userIsSearching: false 
+}
 
 const vehicleReducer = (prevState = initialState, action: any): VehicleContextState  => {
-  switch(action.type) {
-    case 'INITIALISE':
-      return { ...prevState, vehicles: action.data };
-    case 'FILTER_BY_MAKE':
-      return { ...prevState, userIsSearching: true,  };
-    case 'FILTER_BY_MODEL':
-      return { ...prevState, userIsSearching: true,  };
-    case 'FILTER_BY_MILEAGE':
-      return { 
+    const map = new Map([
+      ['INITIALISE', () => ({ ...prevState, vehicles: action.payload.data, meta: action.payload.meta })],
+      ['FILTER_BY_MAKE', () => ({ ...prevState, userIsSearching: true,  })],
+      ['FILTER_BY_MODEL', () => ({ ...prevState, userIsSearching: true,  })],
+      ['FILTER_BY_MILEAGE', () => ({ 
         ...prevState, filtered: prevState.vehicles.filter(
           (vehicle) => (action.payload.min <= vehicle.mileage) && (vehicle.mileage <= action.payload.max )
         )
-      };
-    case 'FILTER_BY_POWER':
-      return { 
+      })],
+      ['FILTER_BY_POWER', () => ({ 
         ...prevState, userIsSearching: true, filtered: prevState.vehicles.filter(
           (vehicle) => (action.payload.min <= Number(vehicle.power)) && (Number(vehicle.power) <= action.payload.max)
         )
-      };
-    case 'FILTER_BY_FIRST_REG':
-      return { ...prevState, userIsSearching: true,  };
-    case 'FILTER_BY_FUEL':
-      return { ...prevState,  };
-    case 'FILTER_BY_PRICE':
-      return { 
+      })],
+      ['FILTER_BY_FIRST_REG', () => ({ ...prevState, userIsSearching: true,  })],
+      ['FILTER_BY_FUEL', () => ({ ...prevState,  })],
+      ['FILTER_BY_PRICE', () => ({ 
         ...prevState, userIsSearching: true, filtered: prevState.vehicles.filter(
           (vehicle) => (action.payload.min <= vehicle.price.price) && (vehicle.price.price <= action.payload.max )
         ) 
-      };
-    case 'FILTER_BY_GEARBOX':
-      return { ...prevState, userIsSearching: true,  };
-    case 'FILTER_BY_EXT_COLOR':
-      return { 
+      })],
+      ['FILTER_BY_GEARBOX', () => ({ ...prevState, userIsSearching: true,  })],
+      ['FILTER_BY_EXT_COLOR', () => ({ 
         ...prevState, userIsSearching: true, filtered: prevState.vehicles.filter(
           (vehicle) => (action.payload.color as string).toLowerCase() === (vehicle?.color ?? '').toLowerCase()
         )
-      };
-    case 'FILTER_BY_CATEGORY':
-      return { ...prevState, userIsSearching: true,  };
-    default:
-      return prevState
-  }
+      })],
+      ['FILTER_BY_CATEGORY', () => ({ ...prevState, userIsSearching: true,  })],
+    ]);
+    let stateData = map.get(action.type);
+    
+    return stateData? stateData() : prevState;
 }
 
 export { vehicleReducer, initialState }
