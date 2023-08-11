@@ -8,7 +8,7 @@ export type Image = {
   car_angle: string
 }
 
-export interface Vehicle{
+export type Vehicle = {
   id: string
   images: Array<Image>
   make: string
@@ -59,7 +59,7 @@ export type FilterType = {
   fuel: string|undefined
   price: {min: number, max: number}|undefined
   gearbox: string|undefined
-  colour: string|undefined
+  color: string|undefined
   category: string|undefined
 }
 
@@ -70,7 +70,7 @@ export type GetVehicles = () => Promise<{ vehicles: Array<Vehicle>, meta: Vehicl
  * place all context state types below this line
  */
 
-export interface VehicleContextState { 
+export type VehicleContextState = { 
   vehicles: Vehicle[] 
   meta: VehicleMetaDataType,
   filtered: Vehicle[] 
