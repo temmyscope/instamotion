@@ -1,3 +1,4 @@
+"use client"
 import React, { useContext, useState } from "react";
 
 import { ColorFilter, NumberRangeFilter, SelectFilter } from "@/app/components/commons/filter";
@@ -8,12 +9,11 @@ import { useVehicleFilter } from '@/app/store/hooks/filter';
 export default function SideBar() {
   const [vehichleState, _] = useContext(VehicleContext);
 
-  const [filters, setFilter] = useState({make: ''});
+  const [filters, setFilter] = useState({ make: '' });
 
   const { 
-    filterByPrice, 
-    filterByPower, 
-    filterByMileage, 
+    filterByPrice, filterByPower, 
+    filterByMileage,
     filterByExtColor, emptyCurrentFilterState,
     filterByMake, filterByModel, filterByFuel,
     filterByCategory, filterByGearBox, filterByFirstReg

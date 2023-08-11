@@ -1,23 +1,69 @@
 "use client";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import React, { Suspense, useContext, lazy, useEffect } from 'react';
 
 import SideBar from '@/app/components/sidebar';
 
-import { VehicleContext } from './store/provider';
+import { Vehicle } from "@/app/lib/types";
+import { VehicleContext } from '@/app/store/provider';
+import { getVehichles } from '@/app/(api)/services/vehicle';
+import { convertParamToFilters } from "./lib/utils";
 
 const VehicleTile = lazy(() => import('./components/commons/tile/index'));
 
 export default function Home() {
-  const [vehichleState, _] = useContext(VehicleContext);
-
-
   const router = useSearchParams();
+  const [vehichleState, dispatch] = useContext(VehicleContext);
 
   useEffect(() => {
-    console.log(router)
+    (async() => {
+      const urlParams = convertParamToFilters(router);
+      
+      const data = await getVehichles();
+      if (data.vehicles) {
+        
+        dispatch({
+          type: 'INITIALISE', 
+          payload: { data: data.vehicles, meta: data.meta, filters: urlParams }
+        });
+      }
+    })();
 
-  });
+    return () => {}
+  }, []);
+
+  const simulateLoadMoreOnDownScroll = () => {
+    const rect = typeof window === 'undefined' || !window.document
+      ? { left: 0, top: 0 }
+      : document.body.getBoundingClientRect();
+
+    const x = rect.left;
+    const y = -rect.top;
+    if ((y%100) > 85) {
+      let vehicleData: Array<Vehicle> = [];
+      // increase number of retrieved items
+      vehicleData = [ ...vehicleData, ...vehichleState.vehicles ];
+      dispatch({ 
+        type: 'UPDATE',
+        payload: { data: vehicleData, meta: vehichleState.meta, filters: vehichleState.filters }
+      });
+    }
+
+  }
+
+  useEffect(() => {
+
+    window.addEventListener('scroll', simulateLoadMoreOnDownScroll);
+
+    return () => {
+      window.removeEventListener('scroll', simulateLoadMoreOnDownScroll)
+    }
+
+  })
+
+  console.log(vehichleState.filtered);
+  console.log(vehichleState.filters);
+
 
   return (
     <React.Fragment>
