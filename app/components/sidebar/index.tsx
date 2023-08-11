@@ -1,5 +1,4 @@
 import React, { useContext, useState } from "react";
-import { useRouter } from "next/router";
 
 import { ColorFilter, NumberRangeFilter, SelectFilter } from "@/app/components/commons/filter";
 
@@ -10,8 +9,6 @@ export default function SideBar() {
   const [vehichleState, _] = useContext(VehicleContext);
 
   const [filters, setFilter] = useState({make: ''});
-
-  const router = useRouter();
 
   const { 
     filterByPrice, 
@@ -25,10 +22,6 @@ export default function SideBar() {
   const addBrandFilter = (brand: string) => {
     setFilter(prevState => ({ ...prevState, make: brand }));
     filterByMake(brand);
-  }
-
-  const handleRouteParams = () => {
-    console.log(router.query)
   }
 
   return (

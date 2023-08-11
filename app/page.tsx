@@ -1,4 +1,5 @@
 "use client";
+import { useRouter, useSearchParams } from "next/navigation";
 import React, { Suspense, useContext, lazy, useEffect } from 'react';
 
 import SideBar from '@/app/components/sidebar';
@@ -9,6 +10,14 @@ const VehicleTile = lazy(() => import('./components/commons/tile/index'));
 
 export default function Home() {
   const [vehichleState, _] = useContext(VehicleContext);
+
+
+  const router = useSearchParams();
+
+  useEffect(() => {
+    console.log(router)
+
+  });
 
   return (
     <React.Fragment>

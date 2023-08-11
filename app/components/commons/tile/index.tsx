@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { Vehicle } from "@/app/lib/types";
 import Label from '@/app/components/commons/label';
 import LazyLoad from 'react-lazyload';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 
 export default function VehicleTile({ vehicle }: { vehicle: Vehicle }) {
 

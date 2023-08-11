@@ -1,5 +1,5 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import ThumbnailImage, { ImageInFocus } from "@/app/components/commons/gallery";
 
@@ -8,7 +8,6 @@ import Label from "@/app/components/commons/label";
 import { Image, Vehicle } from "@/app/lib/types";
 
 export default function Page({ params }: { params: { id: string } }) {
-  const isMounted = useRef(false);
   const { selectById } = useVehicleSelector();
 
   const [vehicleData, setVehicleData] = useState<Vehicle|undefined>();
@@ -25,16 +24,12 @@ export default function Page({ params }: { params: { id: string } }) {
 
   useEffect(() => {
 
-    if (isMounted.current && params.id !== undefined) {
+    if (params.id !== undefined) {
       loadData(params.id);
     }
 
-    isMounted.current = true;
-
-    return () => {
-      isMounted.current = true;
-    };
-  }, [params.id, isMounted.current]);
+    return () => {};
+  }, [params.id]);
 
   if (vehicleData == undefined) {
     return;
