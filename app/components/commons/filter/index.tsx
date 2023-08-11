@@ -1,8 +1,9 @@
 import React, { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
 
 export function SelectFilter(
-  { label, options, handler }: { 
-    label: string, options: Array<string|number>, handler: (value: string) => void
+  { label, options, handler, nullStateHandler }: { 
+    label: string, options: Array<string|number>, 
+    handler: (value: string) => void, nullStateHandler: () => void
   }
 ) {
   const [value, setValue] = useState('');
@@ -12,6 +13,9 @@ export function SelectFilter(
     if (e.target.value !== '') {
       setValue(e.target.value);
       handler(e.target.value);
+    }else{
+      setValue('');
+      nullStateHandler();
     }
   }
 

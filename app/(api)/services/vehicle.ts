@@ -64,7 +64,6 @@ export const getVehichles: GetVehicles = async() => {
   return api.get('/').then(
     data => {
       if (data['records'] && data['records']?.length > 0) {
-        let vehicleData: Array<Vehicle> = [];
         let VehicleMetaData: VehicleMetaDataType = {
            'make': {} as {[key: string]: Set<string>}, 'first_reg': new Set<number>(),
           'color': new Set(), 'fuel': new Set(), 'gearbox': new Set(), 'categories': new Set(),
@@ -77,12 +76,8 @@ export const getVehichles: GetVehicles = async() => {
             return vf;
           }
         );
-        // increase number of retrieved items by iteratively incrementing it
-        for (let index = 0; index < 30; index++) {  
-          vehicleData = [ ...vehicleData, ...formattedData ];
-        }
         // console.log(data['records']);
-        return { vehicles: vehicleData, meta: VehicleMetaData};
+        return { vehicles: formattedData, meta: VehicleMetaData};
       }
       return { vehicles: [], meta: {} as VehicleMetaDataType };
     }

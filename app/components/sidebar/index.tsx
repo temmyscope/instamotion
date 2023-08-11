@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useRouter } from "next/router";
 
 import { ColorFilter, NumberRangeFilter, SelectFilter } from "@/app/components/commons/filter";
 
@@ -8,13 +9,15 @@ import { useVehicleFilter } from '@/app/store/hooks/filter';
 export default function SideBar() {
   const [vehichleState, _] = useContext(VehicleContext);
 
-  const [filters, setFilter] = useState({make: ''})
+  const [filters, setFilter] = useState({make: ''});
+
+  const router = useRouter();
 
   const { 
     filterByPrice, 
     filterByPower, 
     filterByMileage, 
-    filterByExtColor,
+    filterByExtColor, emptyCurrentFilterState,
     filterByMake, filterByModel, filterByFuel,
     filterByCategory, filterByGearBox, filterByFirstReg
   } = useVehicleFilter();
@@ -24,7 +27,9 @@ export default function SideBar() {
     filterByMake(brand);
   }
 
-
+  const handleRouteParams = () => {
+    console.log(router.query)
+  }
 
   return (
     <React.Fragment>
@@ -42,16 +47,19 @@ export default function SideBar() {
             <SelectFilter 
               label="Select category" handler={filterByCategory}
               options={Array.from(vehichleState.meta?.categories ?? [])} 
+              nullStateHandler={() => emptyCurrentFilterState('category')}
             />
 
             <SelectFilter 
               label="Select a brand" handler={addBrandFilter}
+              nullStateHandler={() => emptyCurrentFilterState('make')}
               options={vehichleState.meta.make? Object.keys(vehichleState.meta.make) : []} 
             />
 
             {filters.make !== '' && (
             <SelectFilter 
               label="Select a model" handler={filterByModel}
+              nullStateHandler={() => emptyCurrentFilterState('model')}
               options={Array.from(vehichleState.meta.make[filters.make])} 
             />
             )}
@@ -59,16 +67,19 @@ export default function SideBar() {
             <SelectFilter 
               label="Select fuel type" handler={filterByFuel}
               options={Array.from(vehichleState.meta?.fuel ?? [])} 
+              nullStateHandler={() => emptyCurrentFilterState('fuel')}
             />
 
             <SelectFilter 
               options={Array.from(vehichleState.meta?.first_reg ?? [])} 
+              nullStateHandler={() => emptyCurrentFilterState('reg_year')}
               label="Select year of registration" handler={filterByFirstReg}
             />
 
             <SelectFilter 
               label="Select gear type" handler={filterByGearBox}
               options={Array.from(vehichleState.meta?.gearbox ?? [])} 
+              nullStateHandler={() => emptyCurrentFilterState('gearbox')}
             />
 
             <NumberRangeFilter label="Price" handler={filterByPrice} />

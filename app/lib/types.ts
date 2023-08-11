@@ -50,6 +50,19 @@ export type VehicleMetaDataType = {
   first_reg: Set<number>
 }
 
+export type FilterType = {
+  make: string|undefined
+  model: string|undefined
+  mileage: {min: number, max: number}|undefined
+  power: {min: number, max: number}|undefined
+  reg_year: number|undefined
+  fuel: string|undefined
+  price: {min: number, max: number}|undefined
+  gearbox: string|undefined
+  colour: string|undefined
+  category: string|undefined
+}
+
 export type GetVehicles = () => Promise<{ vehicles: Array<Vehicle>, meta: VehicleMetaDataType}>
 
 /**
@@ -62,4 +75,5 @@ export interface VehicleContextState {
   meta: VehicleMetaDataType,
   filtered: Vehicle[] 
   userIsSearching: boolean 
+  filters: FilterType
 }

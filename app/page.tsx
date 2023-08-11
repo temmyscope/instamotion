@@ -1,5 +1,5 @@
 "use client";
-import React, { Suspense, useContext, lazy } from 'react';
+import React, { Suspense, useContext, lazy, useEffect } from 'react';
 
 import SideBar from '@/app/components/sidebar';
 

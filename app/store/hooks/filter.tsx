@@ -5,6 +5,8 @@ export const useVehicleFilter = () => {
 
   const [_, dispatch] = useContext(VehicleContext);
 
+  const dummyUpdate = () => dispatch({type: 'DUMMY_UPDATE', payload: { data: _.vehicles.slice(0, 6) }});
+
   const filterByMake = (maker: string) => dispatch({ type: 'FILTER_BY_MAKE', payload: { maker } });
 
   const filterByModel = (model: any) => dispatch({ type: 'FILTER_BY_MODEL', payload: { model }  });
@@ -24,15 +26,25 @@ export const useVehicleFilter = () => {
     type: 'FILTER_BY_PRICE', payload: { min, max }
   });
 
-  const filterByGearBox = (gearBox: string) => dispatch({ type: 'FILTER_BY_GEARBOX', payload: { gearBox }  });
+  const filterByGearBox = (gearBox: string) => dispatch({ 
+    type: 'FILTER_BY_GEARBOX', payload: { gearBox } 
+  });
   
-  const filterByExtColor = (color: string) => dispatch({ type: 'FILTER_BY_EXT_COLOR', payload: { color }  });
+  const filterByExtColor = (color: string) => dispatch({ 
+    type: 'FILTER_BY_EXT_COLOR', payload: { color }  
+  });
   
-  const filterByCategory = (category: string) => dispatch({ type: 'FILTER_BY_CATEGORY', payload: { category }  });
+  const filterByCategory = (category: string) => dispatch({ 
+    type: 'FILTER_BY_CATEGORY', payload: { category } 
+  });
 
+  const emptyCurrentFilterState = (fieldName: string) => dispatch(
+    {type: 'UNDO_THIS_FILTER', payload: { filter: fieldName }
+  })
 
   return {
-    filterByCategory, filterByExtColor, filterByFirstReg, filterByFuel, 
-    filterByGearBox, filterByMake, filterByMileage, filterByModel, filterByPower, filterByPrice
+    filterByGearBox, filterByMake, filterByMileage, filterByModel, 
+    filterByPower, filterByPrice, dummyUpdate, filterByCategory, 
+    filterByExtColor, filterByFirstReg, filterByFuel, emptyCurrentFilterState,
   }
 }

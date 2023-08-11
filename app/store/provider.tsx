@@ -1,4 +1,4 @@
-import { VehicleContextState, VehicleMetaDataType } from '@/app/lib/types';
+import { FilterType, Vehicle, VehicleContextState, VehicleMetaDataType } from '@/app/lib/types';
 import React, { useEffect, useMemo, useReducer } from 'react';
 import { vehicleReducer, initialState } from './reducers/vehicle';
 import { getVehichles } from '../(api)/services/vehicle';
@@ -10,7 +10,13 @@ type VehicleContextProp = {
 
 export const VehicleContext = React.createContext<[ 
   VehicleContextState, React.Dispatch<any> 
-]>([  { vehicles: [], filtered: [], meta: {} as VehicleMetaDataType, userIsSearching: false }, () => {} ]);
+]>([ 
+  { 
+    vehicles: [], filtered: [], filters: {} as FilterType,
+    meta: {} as VehicleMetaDataType, userIsSearching: false 
+  }, 
+  () => {} 
+]);
 
 const VehicleContextProvider = ({ children }: VehicleContextProp) => {
   const [vehicleListingState, dispatch] = useReducer(vehicleReducer, initialState);
@@ -19,7 +25,12 @@ const VehicleContextProvider = ({ children }: VehicleContextProp) => {
     (async() => {
       const data = await getVehichles();
       if (data.vehicles) {
-        dispatch({type: 'INITIALISE', payload: { data: data.vehicles, meta: data.meta }})
+        let vehicleData: Array<Vehicle> = [];
+        // increase number of retrieved items by iteratively incrementing it
+        for (let index = 0; index < 30; index++) {  
+          vehicleData = [ ...vehicleData, ...data.vehicles ];
+        }
+        dispatch({type: 'INITIALISE', payload: { data: vehicleData, meta: data.meta }})
       }
     })();
 

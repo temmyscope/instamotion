@@ -2,12 +2,23 @@ import Image from 'next/image';
 import { Vehicle } from "@/app/lib/types";
 import Label from '@/app/components/commons/label';
 import LazyLoad from 'react-lazyload';
+import { useRouter } from 'next/router';
 
 export default function VehicleTile({ vehicle }: { vehicle: Vehicle }) {
+
+  const router = useRouter();
+
+  const onClick = (e: any) => {
+    e.preventDefault()
+    router.push(`/vehicle/${vehicle.id}`)
+  }
   
   return (
     <LazyLoad offset={100} >
-    <a href={`/vehicle/${vehicle.id}`} className="flex flex-col my-1 items-center justify-evenly h-64 rounded bg-gray-50 dark:bg-gray-800">
+    <a 
+      href={`/vehicle/${vehicle.id}`} onClick={onClick}
+      className="flex flex-col my-1 items-center justify-evenly h-64 rounded bg-gray-50 dark:bg-gray-800"
+    >
       <Image 
         src={vehicle.images[0].url ?? ""} 
         width={'200'} height={'70'} style={{width: '100%', height: '60%', objectFit: 'contain' }}
