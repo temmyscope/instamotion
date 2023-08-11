@@ -5,8 +5,6 @@ export const useVehicleFilter = () => {
 
   const [_, dispatch] = useContext(VehicleContext);
 
-  const dummyUpdate = () => dispatch({type: 'DUMMY_UPDATE', payload: { data: _.vehicles.slice(0, 6) }});
-
   const filterByMake = (maker: string) => dispatch({ type: 'FILTER_BY_MAKE', payload: { maker } });
 
   const filterByModel = (model: any) => dispatch({ type: 'FILTER_BY_MODEL', payload: { model }  });
@@ -44,7 +42,7 @@ export const useVehicleFilter = () => {
 
   return {
     filterByGearBox, filterByMake, filterByMileage, filterByModel, 
-    filterByPower, filterByPrice, dummyUpdate, filterByCategory, 
+    filterByPower, filterByPrice, filterByCategory, 
     filterByExtColor, filterByFirstReg, filterByFuel, emptyCurrentFilterState,
   }
 }
