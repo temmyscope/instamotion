@@ -4,8 +4,11 @@ import { filterVehicles } from "@/app/lib/utils";
 const initialState: VehicleContextState = { 
   vehicles: [], meta: {} as VehicleMetaDataType, filtered: [], userIsSearching: false,
   filters: {
-    'make': undefined, 'model': undefined, 'mileage': undefined, 'power': undefined, 'reg_year': undefined,
-    'fuel': undefined, 'price': undefined, 'gearbox': undefined, 'colour': undefined, 'category': undefined,
+    'make': undefined, 'model': undefined, 
+    'mileage': undefined, 'power': undefined, 
+    'reg_year': undefined, 'fuel': undefined, 
+    'price': undefined, 'gearbox': undefined, 
+    'color': undefined, 'category': undefined,
   }
 }
 
@@ -13,11 +16,20 @@ const vehicleReducer = (prevState = initialState, action: any): VehicleContextSt
   
     const map = new Map([
       ['INITIALISE', () => ({ 
-        ...prevState, vehicles: action.payload.data, meta: action.payload.meta,
+        ...prevState, 
+        vehicles: action.payload.data, meta: action.payload.meta,
+        filters: {...prevState.filters, ...action.payload.filters}, userIsSearching: true
       })],
-      ['DUMMY_UPDATE', () => ({ 
-        ...prevState, vehicles: [...prevState.vehicles, action.payload.data]
-      })],
+      ['UPDATE', () => {
+        if (prevState.vehicles.length >= 300) {
+          return ({ ...prevState, })
+        }
+        return ({ 
+        ...prevState, meta: action.payload.meta,
+        vehicles: [...prevState.vehicles, ...action.payload.data],
+        filters: {...prevState.filters, ...action.payload.filters}, userIsSearching: true
+        })
+      }],
       ['FILTER_BY_MAKE', () => ({ 
         ...prevState, userIsSearching: true, filters: {...prevState.filters, make: action.payload.make} 
       })],
@@ -57,9 +69,6 @@ const vehicleReducer = (prevState = initialState, action: any): VehicleContextSt
     ]);
 
     let stateData = map.get(action.type);
-    if (['INITIALISE', 'DUMMY_UPDATE'].includes(action.type)) {
-      return stateData!();
-    }
 
     //where the filtering actually happens
     if (stateData) {
