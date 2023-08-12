@@ -50,6 +50,7 @@ mileage=[0, 10]&fuel=petrol&gearbox=...&color=blue&power=[0, 1000]
 ## Useful resources
   - [Create React App](https://github.com/facebook/create-react-app)
   - [Next.js](https://nextjs.org/)
+  - [Test with Jest](https://github.com/vercel/next.js/tree/canary/examples/with-jest)
   - [TypeScript](https://www.typescriptlang.org/)
   - [PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)
   - [Responsive web design](https://en.wikipedia.org/wiki/Responsive_web_design)
