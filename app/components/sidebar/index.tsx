@@ -64,7 +64,7 @@ export default function SideBar() {
             />
 
             <SelectFilter 
-              options={Array.from(vehichleState.meta?.first_reg ?? [])} 
+              options={Array.from(vehichleState.meta?.first_reg ?? []).sort()} 
               nullStateHandler={() => emptyCurrentFilterState('reg_year')}
               label="Select year of registration" handler={filterByFirstReg}
             />
