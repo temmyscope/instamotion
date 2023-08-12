@@ -36,31 +36,31 @@ export const filterVehicles = (vehicleData: Array<Vehicle>, filters: FilterType)
       (vehicle.mileage <= Number((filters['mileage']!).max) )
     )
   }
-  if (filters['reg_year']) {
+  if (filters['regYear']) {
     vehicleData = vehicleData.filter(
-      (vehicle) => (Number(filters['reg_year']) === vehicle.first_registration.year)
+      (vehicle) => (Number(filters['regYear']) === vehicle.first_registration.year)
     ) 
   }
-  if (filters['gearbox']) {
+  if (filters['gearBox']) {
     vehicleData = vehicleData.filter(
-      (vehicle) => ((filters['gearbox'] as string).toLowerCase() == vehicle.gearbox.toLowerCase())
+      (vehicle) => ((filters['gearBox'] as string).toLowerCase() == vehicle.gearbox?.toLowerCase())
     )
   }
   if (filters['color']) {
     vehicleData = vehicleData.filter(
-      (vehicle) => ((filters['color'] as string).toLowerCase() == vehicle.color.toLowerCase())
+      (vehicle) => ((filters['color'] as string).toLowerCase() == vehicle.color?.toLowerCase())
     )
   }
   if (filters['category']) {
     vehicleData = vehicleData.filter(
-      (vehicle) => ((filters['category'] as string).toLowerCase() == vehicle.category.toLowerCase())
+      (vehicle) => ((filters['category'] as string).toLowerCase() == vehicle.category?.toLowerCase())
     )
   }
   return vehicleData;
 }
 
 export const convertParamToFilters = (
-  router: ReadonlyURLSearchParams
+  router: ReadonlyURLSearchParams|URLSearchParams
 ) => {
   const filterParam: {[k: string]: string|{min: string, max: string}} = {}
   router.forEach((value: string, key: string) => {
@@ -71,11 +71,9 @@ export const convertParamToFilters = (
           min: val[0].replace(" ", ""), max: val[1].replace(" ", "")
         };
       }
-      console.log(val);
     }else{
       filterParam[key] = value;
     }
-    console.log(`${key}: ${value}`)
   });
   return filterParam;
 }

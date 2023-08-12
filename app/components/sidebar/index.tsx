@@ -64,15 +64,15 @@ export default function SideBar() {
             />
 
             <SelectFilter 
-              options={Array.from(vehichleState.meta?.first_reg ?? []).sort()} 
-              nullStateHandler={() => emptyCurrentFilterState('reg_year')}
+              options={Array.from(vehichleState.meta?.firstReg ?? []).sort()} 
+              nullStateHandler={() => emptyCurrentFilterState('regYear')}
               label="Select year of registration" handler={filterByFirstReg}
             />
 
             <SelectFilter 
               label="Select gear type" handler={filterByGearBox}
-              options={Array.from(vehichleState.meta?.gearbox ?? [])} 
-              nullStateHandler={() => emptyCurrentFilterState('gearbox')}
+              options={Array.from(vehichleState.meta?.gearBox ?? [])} 
+              nullStateHandler={() => emptyCurrentFilterState('gearBox')}
             />
 
             <NumberRangeFilter label="Price" handler={filterByPrice} />

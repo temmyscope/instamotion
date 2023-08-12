@@ -46,8 +46,8 @@ export type VehicleMetaDataType = {
   color: Set<string>
   make: {[key: string]: Set<string>}
   fuel: Set<string>
-  gearbox: Set<string>
-  first_reg: Set<number>
+  gearBox: Set<string>
+  firstReg: Set<number>
 }
 
 export type FilterType = {
@@ -55,10 +55,10 @@ export type FilterType = {
   model: string|undefined
   mileage: {min: number, max: number}|undefined
   power: {min: number, max: number}|undefined
-  reg_year: number|undefined
+  regYear: number|undefined
   fuel: string|undefined
   price: {min: number, max: number}|undefined
-  gearbox: string|undefined
+  gearBox: string|undefined
   color: string|undefined
   category: string|undefined
 }

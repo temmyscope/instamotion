@@ -6,7 +6,7 @@ import SideBar from '@/app/components/sidebar';
 
 import { Vehicle } from "@/app/lib/types";
 import { VehicleContext } from '@/app/store/provider';
-import { getVehichles } from '@/app/(api)/services/vehicle';
+import { getVehicles } from '@/app/(api)/services/vehicle';
 import { convertParamToFilters } from "./lib/utils";
 
 const VehicleTile = lazy(() => import('./components/commons/tile/index'));
@@ -19,7 +19,7 @@ export default function Home() {
     (async() => {
       const urlParams = convertParamToFilters(router);
       
-      const data = await getVehichles();
+      const data = await getVehicles();
       if (data.vehicles) {
         
         dispatch({

@@ -1,4 +1,3 @@
-import { requests } from "@/app/(api)/api";
 import { GetVehicles, Vehicle, VehicleMetaDataType } from "@/app/lib/types";
 
 /**
@@ -6,7 +5,7 @@ import { GetVehicles, Vehicle, VehicleMetaDataType } from "@/app/lib/types";
  * @param data 
  * @returns {Vehicle}
  */
-const vehicleFeatureAdapter = (data: any): Vehicle => {
+export const adaptVehicleFeatures = (data: any): Vehicle => {
   let month = null, year = null;
 
   if (data.vehicle_history.reg_date) {
@@ -46,42 +45,42 @@ const vehicleFeatureAdapter = (data: any): Vehicle => {
   });
 }
 
-const ErrorResponseInterceptor = (res: Response) => {
-  if (!res.ok) {
-    throw new Error("Error: I can do anything to global state and determine error view here");
-  }
-  return res;
+
+export const getVehicles: GetVehicles = async() => {
+
+  return fetch(`https://run.mocky.io/v3/e7d5a5aa-8bdf-4a36-b6ab-134c08df916b`, {
+    method: 'GET', headers: {
+      'Accept': 'application/json', 
+      'Content-Type': 'application/json'
+    },
+  }).then((res) => res.json()).then((data) => {
+    if (data['records'] && data['records']?.length > 0) {
+      // console.log(data['records']);
+      return responseProcessor(data['records']);
+    }
+    return { vehicles: [], meta: {} as VehicleMetaDataType };
+  });
 }
 
-export const getVehichles: GetVehicles = async() => {
+/**
+ * processes api response and makes sense of the data
+ * @param {Array<any>} data 
+ * @returns 
+ */
+export const responseProcessor = (data: Array<any>) => {
+  let VehicleMetaData: VehicleMetaDataType = {
+    'make': {} as {[key: string]: Set<string>}, 'firstReg': new Set<number>(),
+    'color': new Set(), 'fuel': new Set(), 'gearBox': new Set(), 'categories': new Set(),
+  };
 
-  const api = requests(
-    [], 
-    [ErrorResponseInterceptor], 
-    'https://run.mocky.io/v3/e7d5a5aa-8bdf-4a36-b6ab-134c08df916b'
-  );
-
-  return api.get('/').then(
-    data => {
-      if (data['records'] && data['records']?.length > 0) {
-        let VehicleMetaData: VehicleMetaDataType = {
-           'make': {} as {[key: string]: Set<string>}, 'first_reg': new Set<number>(),
-          'color': new Set(), 'fuel': new Set(), 'gearbox': new Set(), 'categories': new Set(),
-        };
-
-        let formattedData = (data['records'] as Array<any>).map(
-          vehicle => { 
-            let vf = vehicleFeatureAdapter(vehicle);
-            VehicleMetaData = getVehichleMetaData(vf, VehicleMetaData);
-            return vf;
-          }
-        );
-        // console.log(data['records']);
-        return { vehicles: formattedData, meta: VehicleMetaData};
-      }
-      return { vehicles: [], meta: {} as VehicleMetaDataType };
+  let formattedData = data.map(
+    vehicle => { 
+      let vf = adaptVehicleFeatures(vehicle);
+      VehicleMetaData = getVehichleMetaData(vf, VehicleMetaData);
+      return vf;
     }
   );
+  return { vehicles: formattedData, meta: VehicleMetaData};
 }
 
 
@@ -91,11 +90,13 @@ export const getVehichleMetaData = (vf: Vehicle, VehicleMetaData: VehicleMetaDat
     vf.model.model
   ) ?? new Set([vf.model.model]);
   VehicleMetaData['fuel'] = VehicleMetaData['fuel'].add(vf.fuel);
-  VehicleMetaData['color'] = VehicleMetaData['color'].add(vf.color);
-  if (vf.first_registration.year) {
-    VehicleMetaData['first_reg'] = VehicleMetaData['first_reg'].add(vf.first_registration.year);
+  if (vf.color) {
+    VehicleMetaData['color'] = VehicleMetaData['color'].add(vf.color);
   }
-  VehicleMetaData['gearbox'] = VehicleMetaData['gearbox'].add(vf.gearbox);
+  if (vf.first_registration.year) {
+    VehicleMetaData['firstReg'] = VehicleMetaData['firstReg'].add(vf.first_registration.year);
+  }
+  VehicleMetaData['gearBox'] = VehicleMetaData['gearBox'].add(vf.gearbox);
 
   return VehicleMetaData;
 }

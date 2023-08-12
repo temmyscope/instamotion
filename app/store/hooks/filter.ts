@@ -15,8 +15,8 @@ export const useVehicleFilter = () => {
   const filterByPower = (min: number, max: number) => dispatch({ 
     type: 'FILTER_BY_POWER', payload: { min, max }
   });
-  const filterByFirstReg = (registration: number|string) => dispatch({ 
-    type: 'FILTER_BY_FIRST_REG', payload: { registration: Number(registration) }  
+  const filterByFirstReg = (regYear: number|string) => dispatch({ 
+    type: 'FILTER_BY_FIRST_REG', payload: { regYear: Number(regYear) }  
   });
   const filterByFuel = (fuelType: string) => dispatch({ type: 'FILTER_BY_FUEL', payload: { fuelType }  });
 

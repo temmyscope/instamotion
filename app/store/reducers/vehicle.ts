@@ -6,8 +6,8 @@ const initialState: VehicleContextState = {
   filters: {
     'make': undefined, 'model': undefined, 
     'mileage': undefined, 'power': undefined, 
-    'reg_year': undefined, 'fuel': undefined, 
-    'price': undefined, 'gearbox': undefined, 
+    'regYear': undefined, 'fuel': undefined, 
+    'price': undefined, 'gearBox': undefined, 
     'color': undefined, 'category': undefined,
   }
 }
@@ -46,16 +46,16 @@ const vehicleReducer = (prevState = initialState, action: any): VehicleContextSt
         ...prevState, userIsSearching: true, filters: {...prevState.filters, price: action.payload} 
       })],
       ['FILTER_BY_FIRST_REG', () => ({ 
-        ...prevState, userIsSearching: true, filters: {...prevState.filters, reg_year: action.payload.registration} 
+        ...prevState, userIsSearching: true, filters: {...prevState.filters, regYear: action.payload.regYear} 
       })],
       ['FILTER_BY_FUEL', () => ({ 
         ...prevState, userIsSearching: true, filters: {...prevState.filters, fuel: action.payload.fuelType} 
       })],
       ['FILTER_BY_GEARBOX', () => ({ 
-        ...prevState, userIsSearching: true, filters: {...prevState.filters, gearbox: action.payload.gearBox} 
+        ...prevState, userIsSearching: true, filters: {...prevState.filters, gearBox: action.payload.gearBox} 
        })],
       ['FILTER_BY_EXT_COLOR', () => ({ 
-        ...prevState, userIsSearching: true, filters: {...prevState.filters, colour: action.payload.color} 
+        ...prevState, userIsSearching: true, filters: {...prevState.filters, color: action.payload.color} 
       })],
       ['FILTER_BY_CATEGORY', () => ({ 
         ...prevState, userIsSearching: true, filters: {...prevState.filters, category: action.payload.category} 
