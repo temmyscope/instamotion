@@ -1,5 +1,5 @@
 import {describe, expect, test} from '@jest/globals';
-import { convertParamToFilters, filterVehicles } from '../app/lib/utils';
+import { convertParamToFilters } from '../app/lib/utils';
 
 describe('utility function', () => {
 

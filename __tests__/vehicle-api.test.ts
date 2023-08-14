@@ -1,6 +1,6 @@
 import {describe, expect, test } from '@jest/globals';
 import data from './mock/data.json';
-import { getVehichleMetaData, adaptVehicleFeatures, responseProcessor }  from '@/app/(api)/services/vehicle';
+import { getVehichleMetaData, adaptVehicleFeatures, responseProcessor }  from '@/app/api/services/vehicle';
 import { filterVehicles } from '@/app/lib/utils';
 import { VehicleMetaDataType } from '@/app/lib/types';
 import { initialState, vehicleReducer } from '@/app/store/reducers/vehicle';

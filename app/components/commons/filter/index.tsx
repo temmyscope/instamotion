@@ -8,6 +8,8 @@ export function SelectFilter(
 ) {
   const [value, setValue] = useState('');
 
+  const id = label.split(" ").join("-");
+
   const onChangeHandler = (e: ChangeEvent<HTMLSelectElement>) => {
     //unselected state 
     if (e.target.value !== '') {
@@ -21,11 +23,11 @@ export function SelectFilter(
 
   return (
   <div className="my-2 border-b">
-    <label htmlFor="custom" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+    <label htmlFor={id} className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
       {label}
     </label>
     <select 
-      id="custom" value={value} onChange={onChangeHandler}
+      id={id} value={value} onChange={onChangeHandler}
       className="bg-gray-50 border border-gray-300 text-gray-900 text-sm mb-2 rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500">
       <option value={``}>Select an option </option>
       {options.map((option, idx) => (
@@ -40,6 +42,8 @@ export function SelectFilter(
 
 export function NumberRangeFilter({ label, handler }: { label: string, handler: (min: number, max: number) => void }) {
   const [value, setValue] = useState({min: 0, max: 1000, maxChanged: false});
+
+  const id = label.split(" ").join("-");
 
 
   const minChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -64,12 +68,12 @@ export function NumberRangeFilter({ label, handler }: { label: string, handler: 
         <div className="space-y-4">
 
           <input 
-            placeholder="From" value={value.min} onChange={minChangeHandler}
+            placeholder="From" value={value.min} onChange={minChangeHandler} id={`${id}-from`}
             className="rounded text-sm text-gray-500" style={{width: '40%', height:'40', margin:'2%'}} 
           />
 
           <input 
-            placeholder="To" value={value.max} onChange={maxChangeHandler}
+            placeholder="To" value={value.max} onChange={maxChangeHandler} id={`${id}-to`}
             className="rounded text-sm text-gray-500" style={{width: '40%', height:'40', margin:'2%'}} 
           />
 
@@ -95,10 +99,10 @@ export function ColorFilter({ colors, handler }: { colors: Array<string> , handl
             {color !== null && (
             <div className="flex items-center">
               <input 
-                id={`filter-category-${index}`} name="color" value={color} onChange={onChange} 
+                id={`color-filter-${index}`} name="color" value={color} onChange={onChange} 
                 type="radio" className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500" 
               />
-              <label htmlFor="filter-category-0" className={`ml-3 text-sm text-${color.toLowerCase()}-600`}>{color}</label>
+              <label htmlFor={`color-filter-${index}`} className={`ml-3 text-sm text-${color.toLowerCase()}-600`}>{color}</label>
             </div>
             )}
             </React.Fragment>

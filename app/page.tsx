@@ -1,23 +1,24 @@
 "use client";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter } from "next/navigation";
 import React, { Suspense, useContext, lazy, useEffect } from 'react';
 
 import SideBar from '@/app/components/sidebar';
 
 import { Vehicle } from "@/app/lib/types";
 import { VehicleContext } from '@/app/store/provider';
-import { getVehicles } from '@/app/(api)/services/vehicle';
+import { getVehicles } from '@/app/api/services/vehicle';
 import { convertParamToFilters } from "./lib/utils";
 
 const VehicleTile = lazy(() => import('./components/commons/tile/index'));
 
 export default function Home() {
-  const router = useSearchParams();
+  const router = useRouter();
+  const routerParams = useSearchParams();
   const [vehichleState, dispatch] = useContext(VehicleContext);
 
   useEffect(() => {
     (async() => {
-      const urlParams = convertParamToFilters(router);
+      const urlParams = convertParamToFilters(routerParams);
       
       const data = await getVehicles();
       if (data.vehicles) {
@@ -58,11 +59,15 @@ export default function Home() {
     return () => {
       window.removeEventListener('scroll', simulateLoadMoreOnDownScroll)
     }
-
-  })
+  });
 
   console.log(vehichleState.filtered);
   console.log(vehichleState.filters);
+
+  const goTo = (e: any, id: string) => {
+    e.preventDefault()
+    router.push(`/vehicle/${id}`)
+  }
 
 
   return (
@@ -77,11 +82,11 @@ export default function Home() {
             <Suspense fallback={<p className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Loading</p>}>
                 {vehichleState.userIsSearching === true?
                 vehichleState.filtered.map((vehicle, idx) => (
-                  <VehicleTile vehicle={vehicle} key={idx} />
+                  <VehicleTile vehicle={vehicle} key={idx} goTo={(e) => goTo(e, vehicle.id)} />
                 ))
                 :
                 vehichleState.vehicles.map((vehicle, idx) => (
-                  <VehicleTile vehicle={vehicle} key={idx} />
+                  <VehicleTile vehicle={vehicle} key={idx} goTo={(e) => goTo(e, vehicle.id)}  />
                 ))}
             </Suspense>
 

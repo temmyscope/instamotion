@@ -1,3 +1,4 @@
+"use client";
 import { useState } from "react";
 
 export default function Label({ name, label, id }: { name: string, label: string, id: string }) {

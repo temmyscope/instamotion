@@ -2,21 +2,15 @@ import Image from 'next/image';
 import { Vehicle } from "@/app/lib/types";
 import Label from '@/app/components/commons/label';
 import LazyLoad from 'react-lazyload';
-import { useRouter } from 'next/navigation';
+import { MouseEvent } from 'react';
 
-export default function VehicleTile({ vehicle }: { vehicle: Vehicle }) {
-
-  const router = useRouter();
-
-  const onClick = (e: any) => {
-    e.preventDefault()
-    router.push(`/vehicle/${vehicle.id}`)
-  }
+export function VehicleTile(
+  { vehicle, goTo }: { vehicle: Vehicle, goTo: (e: MouseEvent<HTMLAnchorElement>) => void }
+) {
   
   return (
-    <LazyLoad offset={100} >
     <a 
-      href={`/vehicle/${vehicle.id}`} onClick={onClick}
+      href={`/vehicle/${vehicle.id}`} onClick={goTo}
       className="flex flex-col my-1 items-center justify-evenly h-64 rounded bg-gray-50 dark:bg-gray-800"
     >
       <Image 
@@ -44,6 +38,16 @@ export default function VehicleTile({ vehicle }: { vehicle: Vehicle }) {
         />
       </div>
     </a>
+  );
+}
+
+export default function LazyVehicleTile(
+  { vehicle, goTo }: { vehicle: Vehicle, goTo: (e: MouseEvent<HTMLAnchorElement>) => void }
+) {
+  
+  return (
+    <LazyLoad offset={100}>
+      <VehicleTile vehicle={vehicle} goTo={goTo} />
     </LazyLoad>
   );
 }

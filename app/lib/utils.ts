@@ -62,6 +62,9 @@ export const filterVehicles = (vehicleData: Array<Vehicle>, filters: FilterType)
 export const convertParamToFilters = (
   router: ReadonlyURLSearchParams|URLSearchParams
 ) => {
+  if (!router) {
+    return {};
+  }
   const filterParam: {[k: string]: string|{min: string, max: string}} = {}
   router.forEach((value: string, key: string) => {
     if (['price', 'power', 'mileage'].includes(key)) { //filters that use to & from range
