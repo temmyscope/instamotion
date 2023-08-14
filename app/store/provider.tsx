@@ -7,9 +7,7 @@ type VehicleContextProp = {
   children: React.ReactNode
 }
 
-export const VehicleContext = React.createContext<[ 
-  VehicleContextState, React.Dispatch<any> 
-]>([ 
+export const VehicleContext = React.createContext<[ VehicleContextState, React.Dispatch<any> ]>([ 
   { 
     vehicles: [], filtered: [], filters: {} as FilterType,
     meta: {} as VehicleMetaDataType, userIsSearching: false 
@@ -17,6 +15,12 @@ export const VehicleContext = React.createContext<[
   () => {} 
 ]);
 
+
+/**
+ * global context provider for vehicle-related components
+ * 
+ * @returns 
+ */
 const VehicleContextProvider = ({ children }: VehicleContextProp) => {
   const [vehicleListingState, dispatch] = useReducer(vehicleReducer, initialState);
 

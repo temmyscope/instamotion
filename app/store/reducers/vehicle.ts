@@ -12,6 +12,14 @@ const initialState: VehicleContextState = {
   }
 }
 
+/**
+ * apply reducing action to context state object based on action dispatched
+ * 
+ * @param {VehicleContextState} prevState 
+ * @param {any} action 
+ * @returns 
+ */
+
 const vehicleReducer = (prevState = initialState, action: any): VehicleContextState  => {
   
     const map = new Map([

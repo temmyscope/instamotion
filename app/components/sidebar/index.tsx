@@ -6,6 +6,13 @@ import { ColorFilter, NumberRangeFilter, SelectFilter } from "@/app/components/c
 import { VehicleContext } from "@/app/store/provider";
 import { useVehicleFilter } from '@/app/store/hooks/filter';
 
+
+
+
+/**
+ * generate sidebar component with corresponding filters
+ * @returns 
+**/
 export default function SideBar() {
   const [vehichleState, _] = useContext(VehicleContext);
 

@@ -4,9 +4,15 @@ import Label from '@/app/components/commons/label';
 import LazyLoad from 'react-lazyload';
 import { MouseEvent } from 'react';
 
-export function VehicleTile(
-  { vehicle, goTo }: { vehicle: Vehicle, goTo: (e: MouseEvent<HTMLAnchorElement>) => void }
-) {
+type VehicleTileProp = { vehicle: Vehicle, goTo: (e: MouseEvent<HTMLAnchorElement>) => void }
+
+/**
+ * generate vehicle card/tile with image and label(s)
+ * 
+ * @param {VehicleTileProp} param
+ * @returns 
+**/
+export function VehicleTile({ vehicle, goTo }: VehicleTileProp) {
   
   return (
     <a 
@@ -41,9 +47,14 @@ export function VehicleTile(
   );
 }
 
-export default function LazyVehicleTile(
-  { vehicle, goTo }: { vehicle: Vehicle, goTo: (e: MouseEvent<HTMLAnchorElement>) => void }
-) {
+
+/**
+ * generate vehicle card/tile with image and label(s)
+ * 
+ * @param {VehicleTileProp} param
+ * @returns 
+**/
+export default function LazyVehicleTile({ vehicle, goTo }: VehicleTileProp) {
   
   return (
     <LazyLoad offset={100}>

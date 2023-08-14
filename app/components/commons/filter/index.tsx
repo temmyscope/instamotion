@@ -1,11 +1,19 @@
-import React, { ChangeEvent, FormEvent, FormEventHandler, useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 
-export function SelectFilter(
-  { label, options, handler, nullStateHandler }: { 
-    label: string, options: Array<string|number>, 
-    handler: (value: string) => void, nullStateHandler: () => void
-  }
-) {
+type SelectFilterProp = {
+  label: string, 
+  options: Array<string|number>, 
+  handler: (value: string) => void,
+  nullStateHandler: () => void
+}
+
+/**
+ * generate select-based filter ui element
+ * 
+ * @param {SelectFilterProp} param0 
+ * @returns 
+ */
+export function SelectFilter({ label, options, handler, nullStateHandler }: SelectFilterProp) {
   const [value, setValue] = useState('');
 
   const id = label.split(" ").join("-");
@@ -40,7 +48,18 @@ export function SelectFilter(
   )
 }
 
-export function NumberRangeFilter({ label, handler }: { label: string, handler: (min: number, max: number) => void }) {
+type NumberRangeFilterProp = {
+  label: string, 
+  handler: (min: number, max: number) => void
+}
+
+/**
+ * generate range inputs ui elements 
+ * 
+ * @param {NumberRangeFilterProp} param0 
+ * @returns 
+ */
+export function NumberRangeFilter({ label, handler }: NumberRangeFilterProp) {
   const [value, setValue] = useState({min: 0, max: 1000, maxChanged: false});
 
   const id = label.split(" ").join("-");
@@ -83,7 +102,19 @@ export function NumberRangeFilter({ label, handler }: { label: string, handler: 
   );
 }
 
-export function ColorFilter({ colors, handler }: { colors: Array<string> , handler: (color: string) => void}) {
+type ColorFilterProp = {
+  colors: Array<string> , 
+  handler: (color: string) => void
+}
+
+/**
+ * generate radio-based color selction ui component 
+ * 
+ * @param {ColorFilterProp} param
+ * @returns 
+ */
+
+export function ColorFilter({ colors, handler }: ColorFilterProp) {
   const onChange = (e: ChangeEvent<HTMLInputElement>) => e.target.checked === true && handler(e.target.value);
   
   return (

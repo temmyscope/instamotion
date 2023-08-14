@@ -1,6 +1,12 @@
 import { FilterType, Vehicle } from "@/app/lib/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 
+/**
+ * filter vehicle array based on vehicles that meet the requirement in filter object
+ * @param {Array<Vehicle>} vehicleData 
+ * @param {FilterType} filters 
+ * @returns 
+ */
 export const filterVehicles = (vehicleData: Array<Vehicle>, filters: FilterType) => {
 
   if (filters['make'] !== undefined) {
@@ -59,6 +65,12 @@ export const filterVehicles = (vehicleData: Array<Vehicle>, filters: FilterType)
   return vehicleData;
 }
 
+/**
+ * convert query parameters within router object to useable filter
+ * 
+ * @param {ReadonlyURLSearchParams|URLSearchParams} router 
+ * @returns 
+ */
 export const convertParamToFilters = (
   router: ReadonlyURLSearchParams|URLSearchParams
 ) => {

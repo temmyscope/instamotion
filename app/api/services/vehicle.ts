@@ -1,7 +1,7 @@
 import { GetVehicles, Vehicle, VehicleMetaDataType } from "@/app/lib/types";
 
 /**
- * modifies retrieved items into useable item
+ * modifies retrieved items into useable data for this usecase
  * @param data 
  * @returns {Vehicle}
  */
@@ -46,6 +46,10 @@ export const adaptVehicleFeatures = (data: any): Vehicle => {
 }
 
 
+/**
+ * retrieves vehicle data from api
+ * @returns  {Promise<{vehicles: Array<Vehicle>, meta: VehicleMetaDataType}>}
+ */
 export const getVehicles: GetVehicles = async() => {
 
   return fetch(`https://run.mocky.io/v3/e7d5a5aa-8bdf-4a36-b6ab-134c08df916b`, {
@@ -83,7 +87,13 @@ export const responseProcessor = (data: Array<any>) => {
   return { vehicles: formattedData, meta: VehicleMetaData};
 }
 
-
+/**
+ * extract metadata and grouping info from vehicle data
+ * 
+ * @param {Vehicle} vf 
+ * @param {VehicleMetaDataType} VehicleMetaData 
+ * @returns {VehicleMetaDataType}
+ */
 export const getVehichleMetaData = (vf: Vehicle, VehicleMetaData: VehicleMetaDataType) => {
   VehicleMetaData['categories'].add(vf.category);
   VehicleMetaData['make'][vf.make] = VehicleMetaData['make'][vf.make]?.add(

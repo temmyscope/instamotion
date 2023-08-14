@@ -1,7 +1,19 @@
 "use client";
 import { useState } from "react";
 
-export default function Label({ name, label, id }: { name: string, label: string, id: string }) {
+type LabelProp = {
+  id: string;
+  name: string; 
+  label: string; 
+}
+
+/**
+ * generate vehicle label and corresponding tooltip
+ * 
+ * @param {LabelProp} param
+ * @returns 
+ */
+export default function Label({ name, label, id }: LabelProp) {
   const [isVisibleTooltip, setVisiblity] = useState(false);
   
   return (

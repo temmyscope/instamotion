@@ -65,11 +65,6 @@ export type FilterType = {
 
 export type GetVehicles = () => Promise<{ vehicles: Array<Vehicle>, meta: VehicleMetaDataType}>
 
-/**
- * 
- * place all context state types below this line
- */
-
 export type VehicleContextState = { 
   vehicles: Vehicle[] 
   meta: VehicleMetaDataType,
